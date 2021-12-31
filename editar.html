@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Library</title>
+    <link rel="stylesheet" href="./style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Patrick+Hand&display=swap" rel="stylesheet">
+</head>
+<body>
+    <main id="main">
+        <div id="title">
+            <h1>Editar</h1>
+            <h3>Participa en la creación de esta biblioteca online!</h3>
+            <h4>Introduce el titulo del libro que quieras editar:</h4>
+        </div>
+        <div id="form">
+          <label for="titulo">Título</label><br>
+          <input type="text" id="titulo" name="titulo"><br>
+          <label for="autor">Autor/a</label><br>
+          <input type="text" id="autor" name="autor"><br>
+          <label for="year">Año de publicación</label><br>
+          <input type="text" id="year" name="year"><br>
+          <button onclick="editarLibro()">Editar libro</button>
+        </div>
+    </main>
+
+    <script>
+      function editarLibro(){
+          let titulo = document.getElementById("titulo").value;
+          let autor = document.getElementById("autor").value;
+          let year = document.getElementById("year").value;
+
+          let libro={"titulo":titulo,"autor":autor,"year":year}
+          fetch("/api/editBook",{
+              method: "PUT",
+              headers:{
+                  "Content-Type": "application/json"
+              },
+              body: JSON.stringify(libro)
+          })
+          location.reload();
+        }
+    </script>
+</body>
+</html>

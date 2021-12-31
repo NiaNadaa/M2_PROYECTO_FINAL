@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Library</title>
+    <link rel="stylesheet" href="./style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Patrick+Hand&display=swap" rel="stylesheet">
+</head>
+<body>
+    <main id="main-books">
+
+    </main>
+
+    <script>
+      fetch("http://localhost:3000/api").then((res) => res.json()).then((data) => {
+          for (let i = 0; i < data.length; i++) {
+            document.getElementById(
+              "main-books"
+            ).innerHTML +=
+            `<div class="card" id="libro">
+              <div class="container">
+                <h4 id="titulo"><b>${data[i].titulo}</b></h4>
+                <p>${data[i].autor}</p>
+                <p>${data[i].year}</p>
+                <button onclick="borrarLibro('${data[i].titulo}')">Borrar libro</button>
+              </div>
+            </div>`;
+          }
+        });
+
+        function borrarLibro(titulo){
+            let libro={"titulo":titulo}
+            fetch("/api/deleteBook",{
+                method: "DELETE",
+                headers:{
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(libro)
+            })
+            location.reload();
+          }
+    </script>
+</body>
+</html>
